@@ -6,6 +6,7 @@ void FillArray  (int data[], int size, int start, int step);
 void FillArray_exam1_way1 (int data[], int size);
 void FillArray_exam1_way2 (int data[], int size);
 void FillArray_exam1_way3 (int data[], int size);
+void FillArray_exam1_way4 (int data[], int size);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -20,10 +21,44 @@ int main ()
 
     FillArray_exam1_way3 (data, 20);
     PrintArray (data, 20, "Массив задание 1 способ 3:");
+
+    FillArray_exam1_way4 (data, 20);
+    PrintArray (data, 20, "Массив задание 1 способ 4:");
     return 0;
     }
 
 
+//-----------------------------------------------------------------------------
+void FillArray_exam1_way4 (int data[], int size)
+    {
+    data[0] = 1;
+
+    for (int i = 1; i < size; i++)
+        {
+        if (i % 3 == 0)
+            {
+            assert (i     >= 0 && i     < size);
+            assert (i - 3 >= 0 && i - 3 < size);
+
+            data[i] = data[i - 3];
+            }
+        if (i % 3 == 1)
+            {
+            assert (i     >= 0 && i     < size);
+            assert (i - 1 >= 0 && i - 1 < size);
+
+            data[i] = data[i - 1] + 1;
+            }
+        if (i % 3 == 2)
+            {
+            assert (i     >= 0 && i     < size);
+            assert (i - 1 >= 0 && i - 1 < size);
+            assert (i - 2 >= 0 && i - 2 < size);
+
+            data[i] = data[i - 1] + data[i - 2];
+            }
+        }
+    }
 //-----------------------------------------------------------------------------
 void FillArray_exam1_way3 (int data[], int size)
     {
