@@ -15,6 +15,7 @@ void FillArray_exam2_way2 (int data[], int size);
 void FillArray_exam3_way1 (int data[], int size);
 
 void FillArray_exam4_way1 (int data[], int size);
+void FillArray_exam4_way2 (int data[], int size);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -55,13 +56,40 @@ int main ()
 
     FillArray_exam4_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 4 способ 1");
+
+    FillArray_exam4_way2 (data, 20);
+    PrintArray (data, 20, "Массив задание 4 способ 2");
     return 0;
+    }
+
+//-----------------------------------------------------------------------------
+void FillArray_exam4_way2 (int data[], int size)
+    {
+    data[0] = 1;
+    for (int i = 1; i < size/2; i++)
+        {
+        assert (i     >= 0 && i     < size);
+        assert (i - 1 >= 0 && i - 1 < size);
+
+        data[i] = data[i - 1] + 2;
+        }
+    data[size - 1] = 2;
+    for (int i = size - 2; i > size/2; i--)
+        {
+        assert (i     >= 0 && i     < size);
+        assert (i + 1 >= 0 && i + 1 < size);
+
+        data[i] = data[i + 1] + 2;
+        }
+
+    if (size % 2 != 0)  data[size / 2 ] = size;
+
     }
 
 //-----------------------------------------------------------------------------
 void FillArray_exam4_way1 (int data[], int size)
     {
-    for (int i = 0; i < size/2; i = i + 1)
+    for (int i = 0; i < size/2; i++)
         {
         assert (i            >= 0 && i            < size);
         assert (size - 1 - i >= 0 && size - 1 - i < size);
@@ -72,8 +100,6 @@ void FillArray_exam4_way1 (int data[], int size)
     if (size % 2 != 0)  data[size / 2 ] = size;
 
     }
-
-
 
 //-----------------------------------------------------------------------------
 void FillArray_exam3_way1 (int data[], int size)
@@ -212,6 +238,7 @@ void FillArray_exam1_way2_1 (int data[], int size)
         data[i] = i % 3 + 1;
         }
 }
+
 //-----------------------------------------------------------------------------
 void FillArray_exam1_way1 (int data[], int size)
     {
