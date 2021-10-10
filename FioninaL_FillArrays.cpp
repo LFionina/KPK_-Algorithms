@@ -8,25 +8,61 @@ void FillArray_exam1_way2 (int data[], int size);
 void FillArray_exam1_way3 (int data[], int size);
 void FillArray_exam1_way4 (int data[], int size);
 
+void FillArray_exam2_way1 (int data[], int size);
+
 //-----------------------------------------------------------------------------
 int main ()
     {
     int data [20] = {};
 
+    $y; printf("\n 1 задача ------------------------------------\n");
     FillArray_exam1_way1 (data, 20);
-    PrintArray (data, 20, "Массив задание 1 способ 1:");
+    PrintArray (data, 20, "Массив задание 1 способ 1");
 
     FillArray_exam1_way2 (data, 20);
-    PrintArray (data, 20, "Массив задание 1 способ 2:");
+    PrintArray (data, 20, "Массив задание 1 способ 2");
 
     FillArray_exam1_way3 (data, 20);
-    PrintArray (data, 20, "Массив задание 1 способ 3:");
+    PrintArray (data, 20, "Массив задание 1 способ 3");
 
     FillArray_exam1_way4 (data, 20);
-    PrintArray (data, 20, "Массив задание 1 способ 4:");
+    PrintArray (data, 20, "Массив задание 1 способ 4");
+
+    $y; printf("\n 2 задача ------------------------------------\n");
+
+    FillArray_exam2_way1 (data, 20);
+    PrintArray (data, 20, "Массив задание 2 способ 1");
     return 0;
     }
 
+//-----------------------------------------------------------------------------
+void FillArray_exam2_way1 (int data[], int size)
+    {
+    for (int i = 0; i < size; i = i + 6)
+        {
+        data[i] = 1;
+        }
+    for (int i = 1; i < size; i = i + 6)
+        {
+        data[i] = 2;
+        }
+    for (int i = 2; i < size; i = i + 6)
+        {
+        data[i] = 3;
+        }
+    for (int i = 3; i < size; i = i + 6)
+        {
+        data[i] = 3;
+        }
+    for (int i = 4; i < size; i = i + 6)
+        {
+        data[i] = 2;
+        }
+    for (int i = 5; i < size; i = i + 6)
+        {
+        data[i] = 1;
+        }
+    }
 
 //-----------------------------------------------------------------------------
 void FillArray_exam1_way4 (int data[], int size)
