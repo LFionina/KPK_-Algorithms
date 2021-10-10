@@ -22,7 +22,7 @@ int main ()
     {
     int data [20] = {};
 
- /*   $y; printf("\n\n 1 задача ------------------------------------\n");
+    $y; printf("\n\n 1 задача ------------------------------------\n");
     FillArray_exam1_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 1 способ 1");
 
@@ -51,7 +51,6 @@ int main ()
     FillArray_exam3_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 3 способ 1");
 
- */
     $m; printf("\n\n 4 задача ------------------------------------\n");
 
     FillArray_exam4_way1 (data, 20);
@@ -59,6 +58,7 @@ int main ()
 
     FillArray_exam4_way2 (data, 20);
     PrintArray (data, 20, "Массив задание 4 способ 2");
+
     return 0;
     }
 
@@ -73,6 +73,7 @@ void FillArray_exam4_way2 (int data[], int size)
 
         data[i] = data[i - 1] + 2;
         }
+
     data[size - 1] = 2;
     for (int i = size - 2; i > size/2; i--)
         {
@@ -83,7 +84,6 @@ void FillArray_exam4_way2 (int data[], int size)
         }
 
     if (size % 2 != 0)  data[size / 2 ] = size;
-
     }
 
 //-----------------------------------------------------------------------------
@@ -98,7 +98,6 @@ void FillArray_exam4_way1 (int data[], int size)
         data[size - 1 - i] = data[i] + 1;
         }
     if (size % 2 != 0)  data[size / 2 ] = size;
-
     }
 
 //-----------------------------------------------------------------------------
@@ -277,7 +276,7 @@ void PrintArray (int data[], int size, const char title[])
 
     for (int i = 0; i < size; i++)
         {
-        if (i % 11 == 0) printf ("\n");
+        if (i % 10 == 0) printf ("\n");
 
         $c; printf ("[%2d] = ",i);
         $g; printf ("%3d",data[i]);
