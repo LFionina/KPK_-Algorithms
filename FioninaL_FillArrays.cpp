@@ -14,12 +14,14 @@ void FillArray_exam2_way2 (int data[], int size);
 
 void FillArray_exam3_way1 (int data[], int size);
 
+void FillArray_exam4_way1 (int data[], int size);
+
 //-----------------------------------------------------------------------------
 int main ()
     {
     int data [20] = {};
 
-    $y; printf("\n 1 задача ------------------------------------\n");
+ /*   $y; printf("\n\n 1 задача ------------------------------------\n");
     FillArray_exam1_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 1 способ 1");
 
@@ -35,7 +37,7 @@ int main ()
     FillArray_exam1_way4 (data, 20);
     PrintArray (data, 20, "Массив задание 1 способ 4");
 
-    $y; printf("\n 2 задача ------------------------------------\n");
+    $y; printf("\n\n 2 задача ------------------------------------\n");
 
     FillArray_exam2_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 2 способ 1");
@@ -43,13 +45,35 @@ int main ()
     FillArray_exam2_way2 (data, 20);
     PrintArray (data, 20, "Массив задание 2 способ 2");
 
-    $y; printf("\n 3 задача ------------------------------------\n");
+    $y; printf("\n\n 3 задача ------------------------------------\n");
 
     FillArray_exam3_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 3 способ 1");
 
+ */
+    $m; printf("\n\n 4 задача ------------------------------------\n");
+
+    FillArray_exam4_way1 (data, 20);
+    PrintArray (data, 20, "Массив задание 4 способ 1");
     return 0;
     }
+
+//-----------------------------------------------------------------------------
+void FillArray_exam4_way1 (int data[], int size)
+    {
+    for (int i = 0; i < size/2; i = i + 1)
+        {
+        assert (i            >= 0 && i            < size);
+        assert (size - 1 - i >= 0 && size - 1 - i < size);
+
+        data[i] = i*2 + 1;
+        data[size - 1 - i] = data[i] + 1;
+        }
+    if (size % 2 != 0)  data[size / 2 ] = size;
+
+    }
+
+
 
 //-----------------------------------------------------------------------------
 void FillArray_exam3_way1 (int data[], int size)
@@ -88,6 +112,7 @@ void FillArray_exam2_way2 (int data[], int size)
             }
         }
      }
+
 //-----------------------------------------------------------------------------
 void FillArray_exam2_way1 (int data[], int size)
     {
@@ -148,6 +173,7 @@ void FillArray_exam1_way4 (int data[], int size)
             }
         }
     }
+
 //-----------------------------------------------------------------------------
 void FillArray_exam1_way3 (int data[], int size)
     {
@@ -164,6 +190,7 @@ void FillArray_exam1_way3 (int data[], int size)
         data[i] = 3;
         }
 }
+
 //-----------------------------------------------------------------------------
 void FillArray_exam1_way2 (int data[], int size)
     {
@@ -223,7 +250,7 @@ void PrintArray (int data[], int size, const char title[])
 
     for (int i = 0; i < size; i++)
         {
-        if (i % 8 == 0) printf ("\n");
+        if (i % 11 == 0) printf ("\n");
 
         $c; printf ("[%2d] = ",i);
         $g; printf ("%3d",data[i]);
