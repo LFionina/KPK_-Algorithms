@@ -10,6 +10,7 @@ void FillArray_exam1_way3   (int data[], int size);
 void FillArray_exam1_way4   (int data[], int size);
 
 void FillArray_exam2_way1 (int data[], int size);
+void FillArray_exam2_way2 (int data[], int size);
 
 void FillArray_exam3_way1 (int data[], int size);
 
@@ -38,6 +39,9 @@ int main ()
 
     FillArray_exam2_way1 (data, 20);
     PrintArray (data, 20, "Массив задание 2 способ 1");
+
+    FillArray_exam2_way2 (data, 20);
+    PrintArray (data, 20, "Массив задание 2 способ 2");
 
     $y; printf("\n 3 задача ------------------------------------\n");
 
@@ -68,6 +72,22 @@ void FillArray_exam3_way1 (int data[], int size)
         }
     }
 
+//-----------------------------------------------------------------------------
+void FillArray_exam2_way2 (int data[], int size)
+    {
+    for (int i = 0; i < size; i++)
+        {
+        int k = i % 6;
+        if (k % 5 + 1 <= (5 - k) % 6 + 1)
+            {
+            data[i] = k % 5 + 1;
+            }
+        else
+            {
+            data[i] = (5 - k) % 6 + 1;
+            }
+        }
+     }
 //-----------------------------------------------------------------------------
 void FillArray_exam2_way1 (int data[], int size)
     {
