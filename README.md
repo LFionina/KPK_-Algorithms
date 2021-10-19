@@ -50,10 +50,4 @@
 
 **функция генерации массива случайными сичлами из диапазона от -Х до Х**
 
-void FillRandomArray (int data[], int size, int range)
-    {
-    for (int i = 0; i < size; i++)
-        {
-        data[i] = rand() % range - range / 2;
-        }
-    }
+![image](https://user-images.githubusercontent.com/80356955/137979610-e52a4990-f87d-4911-ba59-59b114d01ccf.png)
