@@ -222,10 +222,7 @@ void FillArray_exam1_way2 (int data[], int size)
     for (int i = 0; i < size; i++)
         {
         data[i] = (i + 1) % 3;
-        if (data[i] == 0)
-            {
-            data[i] = 3;
-            }
+        if (data[i] == 0)   data[i] = 3;
         }
 }
 

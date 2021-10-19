@@ -4,20 +4,68 @@
 void PrintArray (int data[], int size, const char title[], int column);
 void FillRandomArray (int data[], int size, int range);
 
+void NumMaxArray (int data[], int size);
+void NumMinArray (int data[], int size);
+
 //-----------------------------------------------------------------------------
 int main ()
     {
     int data [20] = {};
 
-    $y; printf("\n\n 1 задача ------------------------------------\n");
+    $y; printf("\n\n----- Задача поиска номера максимального элемента -----\n");
 
-    FillRandomArray (data, 20, 10);
-    PrintArray (data, 20, "Массив задание 1 способ 1", 5);
+    FillRandomArray (data, 20, 50);
+    PrintArray (data, 20, "Исходный массив", 7);
+    NumMaxArray (data, 20);
+    NumMinArray (data, 20);
 
     return 0;
     }
 
 //-----------------------------------------------------------------------------
+void NumMinArray (int data[], int size)
+    {
+    int numMin = 0;
+    int minElem = data[0];
+
+    for (int i = 1; i < size; i++)
+        {
+        if (data[i] < minElem)
+            {
+            minElem = data[i];
+            numMin = i;
+            }
+        }
+    $y; printf("Номер минимального  элемента = %2d\n", numMin);
+    }
+
+//-----------------------------------------------------------------------------
+void NumMaxArray (int data[], int size)
+    {
+    int numMax = 0;
+    int maxElem = data[0];
+
+    for (int i = 1; i < size; i++)
+        {
+        if (data[i] > maxElem)
+            {
+            maxElem = data[i];
+            numMax = i;
+            }
+        }
+    $y; printf("Номер максимального элемента = %2d\n", numMax);
+    }
+
+
+//{-----------------------------------------------------------------------------
+//! Заполнение массива случайными числами из симметричного относительно 0 диапазона,
+//! заданного передаваемым параметром
+//!
+//! @param data[]   data[] - массив для генерации
+//! @param size     size   - количество элементов в массиве
+//! @param range    range  - размер диапазона
+//!
+//}-----------------------------------------------------------------------------
 void FillRandomArray (int data[], int size, int range)
     {
     for (int i = 0; i < size; i++)
@@ -26,6 +74,14 @@ void FillRandomArray (int data[], int size, int range)
         }
     }
 
+//{-----------------------------------------------------------------------------
+//! Вывод элементов массива на консоль.
+//!
+//! @param data[]   data[]  - массив для вывода
+//! @param size     size    - количество элементов в массиве
+//! @param title[]  title[] - поясняющий текст
+//! @param column   column  - количество колонок для вывода элементов
+//!
 //-----------------------------------------------------------------------------
 void PrintArray (int data[], int size, const char title[], int column)
     {
