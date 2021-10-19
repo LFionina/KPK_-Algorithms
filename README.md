@@ -50,4 +50,4 @@
 
 **функция генерации массива случайными сичлами из диапазона от -Х до Х**
 
-![image](https://user-images.githubusercontent.com/80356955/137979610-e52a4990-f87d-4911-ba59-59b114d01ccf.png)
+![image](https://user-images.githubusercontent.com/80356955/137979768-b4be2b66-0b8b-4de2-a916-0f48debc8227.png)
