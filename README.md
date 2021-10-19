@@ -48,3 +48,12 @@
 
 # Задание 2. Генерация массива случайным образом.
 
+**функция генерации массива случайными сичлами из диапазона от -Х до Х**
+
+void FillRandomArray (int data[], int size, int range)
+    {
+    for (int i = 0; i < size; i++)
+        {
+        data[i] = rand() % range - range / 2;
+        }
+    }
