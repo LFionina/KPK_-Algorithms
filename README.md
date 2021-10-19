@@ -11,7 +11,7 @@
   
 **способ 2:** Заполнение массива остатками от деления индекcа массива на 3
  
- ![image](https://user-images.githubusercontent.com/80356955/137974197-cb7a464b-7b79-4b7b-9d9a-10f5d37ad135.png)
+ ![image](https://user-images.githubusercontent.com/80356955/137974468-d8025eee-f156-4798-b7ae-a3a4eee3effa.png)
  
 **способ 3:**
 
