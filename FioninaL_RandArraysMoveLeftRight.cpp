@@ -5,7 +5,8 @@ void PrintArray (int data[], int size, const char title[], int column);
 void FillRandomArray (int data[], int size, int range);
 
 void MoveLeft  (int data [], int size);
-void MoveRight (int data [], int size);
+void MoveRightEndToBegin (int data [], int size);
+void MoveRightBeginToEnd (int data [], int size);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -21,11 +22,19 @@ int main ()
     MoveLeft (data, n);
     PrintArray (data, n, "Полученный массив сдвигом влево", 8);
 
+    $y; printf("\n------------------------------------------------\n");
     FillRandomArray (data, n, 50);
     PrintArray (data, n, "Исходный массив 2", 8);
 
-    MoveRight (data, n);
-    PrintArray (data, n, "Полученный массив сдвигом вправо", 8);
+    MoveRightEndToBegin (data, n);
+    PrintArray (data, n, "Полученный массив сдвигом вправо: обход с конца массива", 8);
+
+    $y; printf("\n------------------------------------------------\n");
+    FillRandomArray (data, n, 50);
+    PrintArray (data, n, "Исходный массив 3", 8);
+
+    MoveRightBeginToEnd (data, n);
+    PrintArray (data, n, "Полученный массив сдвигом вправо: обход с начала массива", 8);
 
     return 0;
     }
@@ -46,7 +55,7 @@ void MoveLeft (int data [], int size)
     }
 
 //-----------------------------------------------------------------------------
-void MoveRight (int data [], int size)
+void MoveRightEndToBegin (int data [], int size)
     {
     int temp = data[size - 1];
 
@@ -60,6 +69,23 @@ void MoveRight (int data [], int size)
     data[0] = temp;
     }
 
+//-----------------------------------------------------------------------------
+void MoveRightBeginToEnd (int data [], int size)
+    {
+    int tempPrev = data[0];
+    int tempPos  = data[0];
+
+    for (int i = 0; i < size - 1; i++)
+        {
+        assert (i     >= 0 && i     < size);
+        assert (i + 1 >= 0 && i + 1 < size);
+
+        tempPos = data[i + 1];
+        data[i + 1] = tempPrev;
+        tempPrev = tempPos;
+        }
+    data[0] = tempPrev;
+    }
 
 //-----------------------------------------------------------------------------
 void FillRandomArray (int data[], int size, int range)
@@ -73,7 +99,7 @@ void FillRandomArray (int data[], int size, int range)
 //-----------------------------------------------------------------------------
 void PrintArray (int data[], int size, const char title[], int column)
     {
-    $y; printf ("\n%s:", title);
+    $y; printf ("\n%s", title);
 
     for (int i = 0; i < size; i++)
         {
