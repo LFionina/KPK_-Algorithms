@@ -4,8 +4,8 @@
 void PrintArray (int data[], int size, const char title[], int column);
 void FillRandomArray (int data[], int size, int range);
 
-void NumMaxArray (int data[], int size);
-void NumMinArray (int data[], int size);
+int NumMaxArray (int data[], int size);
+int NumMinArray (int data[], int size);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -16,44 +16,51 @@ int main ()
 
     FillRandomArray (data, 20, 50);
     PrintArray  (data, 20, "Исходный массив", 7);
-    NumMaxArray (data, 20);
-    NumMinArray (data, 20);
 
+    int numMax = NumMaxArray (data, 20);
+    $y; printf("Номер максимального элемента = %2d\n", numMax);
+
+    int numMin = NumMinArray (data, 20);
+    $y; printf("Номер минимального  элемента = %2d\n", numMin);
     return 0;
     }
 
 //-----------------------------------------------------------------------------
-void NumMinArray (int data[], int size)
+int NumMinArray (int data[], int size)
     {
     int numMin = 0;
     int minElem = data[0];
 
     for (int i = 1; i < size; i++)
         {
+        assert (i >= 1 && i < size);
+
         if (data[i] < minElem)
             {
             minElem = data[i];
             numMin = i;
             }
         }
-    $y; printf("Номер минимального  элемента = %2d\n", numMin);
+    return numMin;
     }
 
 //-----------------------------------------------------------------------------
-void NumMaxArray (int data[], int size)
+int NumMaxArray (int data[], int size)
     {
     int numMax = 0;
-    int maxElem = data[0];
+    int maxElem = data[numMax];
 
     for (int i = 1; i < size; i++)
         {
+        assert (i >= 1 && i < size);
+
         if (data[i] > maxElem)
             {
             maxElem = data[i];
             numMax = i;
             }
         }
-    $y; printf("Номер максимального элемента = %2d\n", numMax);
+    return numMax;
     }
 
 
@@ -70,6 +77,8 @@ void FillRandomArray (int data[], int size, int range)
     {
     for (int i = 0; i < size; i++)
         {
+        assert (i >= 0 && i < size);
+
         data[i] = rand() % range - range / 2;
         }
     }
