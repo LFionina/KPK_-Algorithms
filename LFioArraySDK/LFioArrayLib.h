@@ -176,25 +176,33 @@ int NumMinArray (int data[], int beginIndex, int endIndex)
 
 
 //{-----------------------------------------------------------------------------
+//! Графический вывод массива в виде столбчатой диаграммы
+//!
+//! @param data[]      data[]    - массив для вывода
+//! @param size        size      - количество элементов в массиве
+//! @param index       index     - индекс отсортированной части
+//! @param colorSort   colorSort - цвет отсортированной части
+//! @param colorBase   colorBase - цвет неотсортированной части
+//! @param widthRec    widthRec  - ширина столбиков
 //!
 //}-----------------------------------------------------------------------------
 void GraphicArray (int data[], int size, int index, COLORREF colorSort, COLORREF colorBase, double widthRec)
     {
-
     for (int i = 0; i < size; i++)
         {
         if (i < index)
             {
             txSetColor (colorSort, 2);
             txSetFillColor (colorSort);
-            txRectangle(50 + i*widthRec, 700, 50 + i*widthRec + (widthRec - 5), 700 - data[i]/8);
+            txRectangle(50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 750 - data[i]/10);
             }
         else
             {
             txSetColor (colorBase, 2);
             txSetFillColor (colorBase);
-            txRectangle(50 + i*widthRec, 700, 50 + i*widthRec + (widthRec - 5), 700 - data[i]/8);
+            txRectangle(50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 750 - data[i]/10);
             }
+
         }
     }
 

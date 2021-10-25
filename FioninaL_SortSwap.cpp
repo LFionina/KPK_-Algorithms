@@ -4,7 +4,7 @@
 # include "LFioArraySDK\LFioArrayLib.h"
 
 void swapElem (int data[], int beginIndex, int endIndex);
-void PrintGraphArray (int data[], int size);
+void PrintGraphArray (int data[], int size, int index);
 
 
 //-----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ int main ()
 
         swapElem(data, i, indexMin);
 
-        PrintGraphArray (data, n);
+        PrintGraphArray (data, n, i+1);
 
         //PrintArrayColor  (data, n, i+1, n);
         }
@@ -52,15 +52,17 @@ void swapElem (int data[], int beginIndex, int endIndex)
 
 
 //-----------------------------------------------------------------------------
-void PrintGraphArray (int data[], int size)
+void PrintGraphArray (int data[], int size, int index)
     {
     txSetFillColor (TX_BLACK);
     txClear();
 
     double widthRec  = (1200 - 100) / size;
-    double heightRec = 500 / data[NumMaxArray(data, 0, size)];
+    //double heightRec = 500 / data[NumMaxArray(data, 0, size)];
+    txSelectFont ("Arial", 30);
+    txDrawText   (50, 750, 1200, 790, "0            1           2           3           4           5           6           7 ");
 
-    GraphicArray (data, size, 2, TX_YELLOW, TX_GREEN, widthRec);
+    GraphicArray (data, size, index, TX_YELLOW, TX_GREEN, widthRec);
 
     txSleep (1000);
     }
