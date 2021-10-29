@@ -23,8 +23,9 @@
 
 void FillRandomArray     (int data[], int size, int range);
 void FillRandomArrayTest (int data[], int size, int range);
-void PrintArray      (int data[], int size, const char title[], int column);
-void PrintArrayColor (int data[], int size, int index, int column);
+void PrintArray          (int data[], int size, const char title[], int column);
+void PrintArrayColor     (int data[], int size, int index, int column);
+void PrintArrayColorEnd  (int data[], int size, int index, int column);
 
 int NumMinArray (int data[], int beginIndex, int endIndex);
 int NumMaxArray (int data[], int beginIndex, int endIndex);
@@ -115,6 +116,31 @@ void PrintArrayColor (int data[], int size, int index, int column)
         if (i % column == 0) printf ("\n");
 
         if (i < index)     { $m; printf ("[%2d] = ",i); printf ("%4d",data[i]); }
+        else               { $c; printf ("[%2d] = ",i); $g; printf ("%4d",data[i]); }
+
+        if (i != size - 1) { $c; printf (", ");}
+
+        }
+
+    printf ("\n");
+    }
+
+//{-----------------------------------------------------------------------------
+//! Вывод элементов массива на консоль в цвете.
+//!
+//! @param data[]   data[]  - массив для вывода
+//! @param size     size    - количество элементов в массиве
+//! @param index    index   - номер элемента
+//! @param column   column  - количество колонок для вывода элементов
+//!
+//}-----------------------------------------------------------------------------
+void PrintArrayColorEnd (int data[], int size, int index, int column)
+    {
+    for (int i = 0; i < size; i++)
+        {
+        if (i % column == 0) printf ("\n");
+
+        if (i >= index)     { $m; printf ("[%2d] = ",i); printf ("%4d",data[i]); }
         else               { $c; printf ("[%2d] = ",i); $g; printf ("%4d",data[i]); }
 
         if (i != size - 1) { $c; printf (", ");}
