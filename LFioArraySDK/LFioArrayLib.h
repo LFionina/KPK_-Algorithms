@@ -188,19 +188,33 @@ int NumMinArray (int data[], int beginIndex, int endIndex)
 //}-----------------------------------------------------------------------------
 void GraphicArray (int data[], int size, int index, COLORREF colorSort, COLORREF colorBase, double widthRec)
     {
+    txSelectFont ("Arial", 30);
+
     for (int i = 0; i < size; i++)
         {
+        char str[1];
+        sprintf (str, "%d", i);
+        txDrawText   (50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 790, str);
+        }
+
+    for (int i = 0; i < size; i++)
+        {
+        char str[1];
+        sprintf (str, "%d", i);
+
         if (i < index)
             {
             txSetColor (colorSort, 2);
             txSetFillColor (colorSort);
             txRectangle(50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 750 - data[i]/10);
+            txDrawText   (50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 790, str);
             }
         else
             {
             txSetColor (colorBase, 2);
             txSetFillColor (colorBase);
             txRectangle(50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 750 - data[i]/10);
+            txDrawText   (50 + i*widthRec, 750, 50 + i*widthRec + (widthRec - 5), 790, str);
             }
 
         }
