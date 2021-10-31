@@ -33,9 +33,6 @@ int main ()
 
     PrintArray  (data, n, "Отсортированный массив", n);
 
-
-
-
     return 0;
     }
 
@@ -45,7 +42,7 @@ void swapBubble (int data[], int beginIndex, int size)
     for (int j = 0; j < size - beginIndex - 1; j++)
         {
         assert (j     >= 0 && j     < size - beginIndex - 1);
-        assert (j + 1 >= 0 && j + 1 < size - beginIndex - 1);
+        assert (j + 1 >= 0 && j + 1 < size - beginIndex);
 
         if (data[j] > data [j + 1])
             {
