@@ -1,9 +1,15 @@
 # include "TXLib.h"
 # include <stdlib.h>
 
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
 # include "LFioArraySDK\LFioArrayLib.h"
 
 void PrintGraphArray (int data[], int size, int index);
+void SortSwap (int data[], int size, int* countSwap, int* count);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -21,16 +27,32 @@ int main ()
     FillRandomArrayTest (data, n, 50);
     PrintArray  (data, n, "Исходный массив", n);
 
-    txSleep(1000);
+    SortSwap (data, n, &countSwap, &count);
 
-    for (int j = 0; j < n; j++)
+    std::ofstream f;
+    f.open("swap.txt");
+
+    f << count << ";" << countSwap << "\n";
+    f.close();
+
+    PrintArray  (data, n, "Отсортированный массив", n);
+    printf("обменов %d      сравнений   % d", countSwap, count);
+
+    return 0;
+    }
+
+
+//-----------------------------------------------------------------------------
+void SortSwap (int data[], int size, int* countSwap, int* count)
+    {
+     for (int j = 0; j < size; j++)
         {
         int numMin = j;
         int minElem = data[numMin];
 
-        for (int i = j; i < n; i++)
+        for (int i = j; i < size; i++)
             {
-            assert (i >= j && i < n);
+            assert (i >= j && i < size);
 
             if (data[i] < minElem)
                 {
@@ -38,29 +60,22 @@ int main ()
                 minElem = data[i];
                 numMin = i;
 
-                count += 1;
+                *count += 1;
                 //printf(".");
                 }
             else
                 {
                 //printf("*");
-                count += 1;
+                *count += 1;
                 }
 
             }
-        countSwap += 1;
+        *countSwap += 1;
         data[numMin] = data [j];
         data[j] = minElem;
 
         }
-
-    PrintArray  (data, n, "Отсортированный массив", n);
-
-    printf("обменов %d      сравнений   % d", countSwap, count);
-    return 0;
     }
-
-
 //-----------------------------------------------------------------------------
 void PrintGraphArray (int data[], int size, int index)
     {
