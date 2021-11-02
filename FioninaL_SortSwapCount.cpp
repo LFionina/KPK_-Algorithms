@@ -16,27 +16,38 @@ int main ()
     {
     txCreateWindow (1500, 800);
 
-    const int n = 10;
-    int data [n] = {};
-
-    int countSwap = 0;
-    int count = 0;
-
-    $y; printf("\n----- Задача сортировка обменом -----\n");
-
-    FillRandomArrayTest (data, n, 50);
-    PrintArray  (data, n, "Исходный массив", n);
-
-    SortSwap (data, n, &countSwap, &count);
+    const int k = 100;
+    int data [k] = {};
 
     std::ofstream f;
     f.open("swap.txt");
 
-    f << count << ";" << countSwap << "\n";
-    f.close();
+    $y; printf("\n----- Задача сортировка обменом -----\n");
 
-    PrintArray  (data, n, "Отсортированный массив", n);
-    printf("обменов %d      сравнений   % d", countSwap, count);
+    int n = 5;
+
+    for (int z = 0; z < 5; z++)
+        {
+        int countSwap = 0;
+        int count = 0;
+
+        FillRandomArrayTest (data, n, 50);
+        PrintArray  (data, n, "Исходный массив", 10);
+
+        SortSwap (data, n, &countSwap, &count);
+
+
+
+        f << count << ";" << countSwap << "\n";
+
+
+        PrintArray  (data, n, "Отсортированный массив", 10);
+        printf("обменов %d      сравнений   % d", countSwap, count);
+
+        n += 5;
+        }
+
+    f.close();
 
     return 0;
     }
