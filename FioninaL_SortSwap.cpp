@@ -20,7 +20,7 @@ int main ()
     FillRandomArrayTest (data, n, 50);
     PrintArray  (data, n, "Исходный массив", n);
 
-    //txSleep(1000);
+    txSleep(1000);
 
     for (int i = 0; i < n; i++)
         {
@@ -28,15 +28,12 @@ int main ()
 
         swapElem(data, i, indexMin);
 
-        //PrintGraphArray (data, n, i+1);
+        PrintGraphArray (data, n, i+1);
 
-        PrintArrayColor  (data, n, i+1, n);
+        //PrintArrayColor  (data, n, i+1, n);
         }
 
     PrintArray  (data, n, "Отсортированный массив", n);
-
-
-
 
     return 0;
     }
@@ -57,7 +54,7 @@ void PrintGraphArray (int data[], int size, int index)
     txSetFillColor (TX_BLACK);
     txClear();
 
-    double widthRec  = (1200 - 100) / size;
+    double widthRec  = (1500 - 100) / size;
     //double heightRec = 500 / data[NumMaxArray(data, 0, size)];
 
     GraphicArray (data, size, index, TX_YELLOW, TX_GREEN, widthRec);

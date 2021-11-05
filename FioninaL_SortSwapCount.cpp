@@ -37,8 +37,7 @@ int main ()
         SortSwap (data, n, &countSwap, &count);
 
 
-
-        f << count << ";" << countSwap << "\n";
+        f << n << " " << count << " " << countSwap << "\n";
 
 
         PrintArray  (data, n, "Отсортированный массив", 10);
