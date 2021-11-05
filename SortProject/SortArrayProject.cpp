@@ -6,11 +6,15 @@
 #include <fstream>
 #include <iomanip>
 
-# include "SortArraySDK\SortArrayLib.h"
+#include "SortArraySDK\SortArrayLib.h"
 
 void Interface ();
 void Button      (int x, int y, const char num[], const char text[]);
 void ButtonCheck (int x, int y, const char num[], const char text[]);
+
+void SortFileChange (const char namefile[], int data[], int size, int sortType);
+
+void ramka (const char title[]);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -19,6 +23,123 @@ int main ()
 
     Interface();
 
+    const int k = 100;
+    int data [k] = {};
+
+
+    while (!(txGetAsyncKeyState (VK_ESCAPE)))
+        {
+        if (txGetAsyncKeyState ('1'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            ButtonCheck(20, 103, "1", "Обмен");
+            Button (20, 203, "2", "Пузырек");
+            Button (20, 303, "3", "Вставками");
+            Button (20, 403, "4", "Быстрая");
+            Button (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            ramka("Cортировка обменом");
+
+            FillRandomArrayTest (data, k, 50);
+
+            SortFileChange ("SortArraySDK\\files\\swap.txt", data, k, 1 );
+
+            }
+
+        else if (txGetAsyncKeyState ('2'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            Button (20, 103, "1", "Обмен");
+            ButtonCheck (20, 203, "2", "Пузырек");
+            Button (20, 303, "3", "Вставками");
+            Button (20, 403, "4", "Быстрая");
+            Button (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            ramka("Пузырьковая сортировка");
+
+            FillRandomArrayTest (data, k, 50);
+
+            SortFileChange ("SortArraySDK\\files\\bubble.txt", data, k, 2 );
+
+            }
+        else if (txGetAsyncKeyState ('3'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            Button (20, 103, "1", "Обмен");
+            Button (20, 203, "2", "Пузырек");
+            ButtonCheck (20, 303, "3", "Вставками");
+            Button (20, 403, "4", "Быстрая");
+            Button (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            ramka("... сортировка");
+
+            FillRandomArrayTest (data, k, 50);
+
+            }
+        else if (txGetAsyncKeyState ('4'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            Button (20, 103, "1", "Обмен");
+            Button (20, 203, "2", "Пузырек");
+            Button (20, 303, "3", "Вставками");
+            ButtonCheck (20, 403, "4", "Быстрая");
+            Button (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            ramka("/// сортировка");
+
+            FillRandomArrayTest (data, k, 50);
+
+            }
+        else if (txGetAsyncKeyState ('5'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            Button (20, 103, "1", "Обмен");
+            Button (20, 203, "2", "Пузырек");
+            Button (20, 303, "3", "Вставками");
+            Button (20, 403, "4", "Быстрая");
+            ButtonCheck (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            ramka("**** сортировка");
+
+            FillRandomArrayTest (data, k, 50);
+
+            }
+        else if (txGetAsyncKeyState ('0'))
+            {
+            txSetColor (RGB (191, 191, 191));
+            txSetFillColor (RGB (191, 191, 191));
+            txRectangle (0, 100, 250, 800);
+            Button (20, 103, "1", "Обмен");
+            Button (20, 203, "2", "Пузырек");
+            Button (20, 303, "3", "Вставками");
+            Button (20, 403, "4", "Быстрая");
+            Button (20, 503, "5", "Шелла");
+            Button (20, 688, "0", "Очистить");
+
+            txSetColor (RGB (10, 10, 10));
+            txSetFillColor (RGB (10, 10, 10));
+            txRectangle (400, 101, 1400, 171);
+            }
+
+        Sleep (10);
+        }
+
+    /*
     string a;
     int y12;
     int y22;
@@ -67,10 +188,37 @@ int main ()
 
 
     f.close();
+    */
 
     return 0;
     }
 
+
+
+
+//-----------------------------------------------------------------------------
+void SortFileChange (const char namefile[], int data[], int size, int sortType )
+    {
+    std::ofstream f;
+    f.open(namefile);
+
+    int n = 5;
+
+    for (int z = 0; z < 10; z++)
+        {
+        int countSwap = 0;
+        int count = 0;
+
+        if (sortType == 1)   SortSwap   (data, n, &countSwap, &count);
+        if (sortType == 2)   SortBubble (data, n, &countSwap, &count);
+
+        f << n << " " << count << " " << countSwap << "\n";
+
+        n += 5;
+        }
+
+    f.close();
+    }
 
 //-----------------------------------------------------------------------------
 void Interface ()
@@ -141,4 +289,21 @@ void ButtonCheck (int x, int y, const char num[], const char text[])
     txDrawText   (x, y, x + 40, y + 60, num);
     txDrawText   (x + 45, y, x + 210, y + 60, text);
 
+    }
+
+//-----------------------------------------------------------------------------
+void ramka (const char title[])
+    {
+    txSetColor (RGB (10, 10, 10));
+    txSetFillColor (RGB (10, 10, 10));
+    txRectangle (400, 101, 1400, 171);
+
+    txSelectFont ("Arial", 40);
+    txSetColor (TX_YELLOW);
+    txDrawText (250, 101, 1450, 141, title);
+    txSelectFont ("Arial", 30);
+    txSetColor (TX_GREEN);
+    txDrawText (250, 141,  850, 171, "-  количество сравнений");
+    txSetColor (TX_MAGENTA);
+    txDrawText (850, 141, 1450, 171, "-  количество перестановок");
     }
