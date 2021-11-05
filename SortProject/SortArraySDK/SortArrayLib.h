@@ -17,6 +17,9 @@ void PrintArray          (int data[], int size, const char title[], int column);
 int NumMinArray (int data[], int beginIndex, int endIndex);
 int NumMaxArray (int data[], int beginIndex, int endIndex);
 
+void SortSwap   (int data[], int size, int* countSwap, int* count);
+void SortBubble (int data[], int size, int* countSwap, int* count);
+
 //{-----------------------------------------------------------------------------
 //! «адает массив случайнами числами из диапазона [-a, a].
 //!
@@ -135,4 +138,62 @@ int NumMinArray (int data[], int beginIndex, int endIndex)
     return numMin;
     }
 
+//-----------------------------------------------------------------------------
+void SortSwap (int data[], int size, int* countSwap, int* count)
+    {
+     for (int j = 0; j < size; j++)
+        {
+        int numMin = j;
+        int minElem = data[numMin];
 
+        for (int i = j; i < size; i++)
+            {
+            assert (i >= j && i < size);
+
+            if (data[i] < minElem)
+                {
+                minElem = data[i];
+                numMin = i;
+
+                *count += 1;
+                }
+            else
+                {
+                *count += 1;
+                }
+            }
+        *countSwap += 1;
+        data[numMin] = data [j];
+        data[j] = minElem;
+        }
+    }
+
+
+//-----------------------------------------------------------------------------
+void SortBubble (int data[], int size, int* countSwap, int* count)
+    {
+    for (int i = 0; i < size - 1; i++)
+        {
+        assert (i >= 0 && i < size - 1);
+
+        for (int j = 0; j < size - i - 1; j++)
+            {
+            assert (j     >= 0 && j     < size - i - 1);
+            assert (j + 1 >= 0 && j + 1 < size - i);
+
+            if (data[j] > data [j + 1])
+                {
+                int temp = data [j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+
+                *countSwap += 1;
+                *count += 1;
+                }
+            else
+                {
+                *count += 1;
+                }
+            }
+        }
+    }
