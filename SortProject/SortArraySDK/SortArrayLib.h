@@ -19,6 +19,7 @@ int NumMaxArray (int data[], int beginIndex, int endIndex);
 
 void SortSwap   (int data[], int size, int* countSwap, int* count);
 void SortBubble (int data[], int size, int* countSwap, int* count);
+void SortInsert (int data[],int size, int* countSwap, int* count);
 
 //{-----------------------------------------------------------------------------
 //! «адает массив случайнами числами из диапазона [-a, a].
@@ -197,3 +198,29 @@ void SortBubble (int data[], int size, int* countSwap, int* count)
             }
         }
     }
+
+
+//-----------------------------------------------------------------------------
+void SortInsert (int data[],int size, int* countSwap, int* count)
+    {
+	for (int i = 1; i < size; i++)
+        {
+		for(int j = i; j > 0; j--)
+            {
+            if (data[j-1] > data[j] )
+                {
+                int temp = data[j - 1];
+                data[j - 1] = data[j];
+                data[j] = temp;
+
+                *countSwap += 1;
+                *count += 1;
+                }
+            else
+                {
+                *count += 1;
+                }
+            }
+        }
+
+}
