@@ -12,7 +12,8 @@ void Interface ();
 void Button      (int x, int y, const char num[], const char text[]);
 void ButtonCheck (int x, int y, const char num[], const char text[]);
 
-void SortFileChange (const char namefile[], int data[], int size, int sortType);
+void SortFileChange  (const char namefile[], int data[], int size, int sortType);
+void SortGraphChange (const char namefile[]);
 
 void ramka (const char title[]);
 
@@ -47,6 +48,7 @@ int main ()
 
             SortFileChange ("SortArraySDK\\files\\swap.txt", data, k, 1 );
 
+            SortGraphChange ("SortArraySDK\\files\\swap.txt");
             }
 
         else if (txGetAsyncKeyState ('2'))
@@ -139,62 +141,56 @@ int main ()
         Sleep (10);
         }
 
-    /*
-    string a;
-    int y12;
-    int y22;
+    return 0;
+    }
+
+
+
+//-----------------------------------------------------------------------------
+void SortGraphChange (const char namefile[])
+    {
+    int x = 300; int y = 700;
+
+    int yCount_2;
+    int yCountSwap_2;
     int x2;
 
-    int x = 300;
-    int y = 700;
-
-    int y11 = y;
-    int y21 = y;
-    int x1 = x+10;
-
-    txSetColor(TX_WHITE, 2);
-    txLine (x     , y,       x + 1100, y);
-    txLine (x + 10, y + 10 , x + 10,   y - 570);
+    int yCount_1 = y;
+    int yCountSwap_1 = y;
+    int x1 = x + 10;
 
     std::fstream f;
-    f.open("swap.txt");
+    f.open(namefile);
 
     if (f)
         {
         while (!f.eof())
             {
-            //чтение очередного значения из потока F в переменную a
-            f >> x2 >> y12 >> y22;
+            f >> x2 >> yCount_2 >> yCountSwap_2;
 
             txSetColor(TX_WHITE, 2);
-            txLine (x + x2*20, y + 10 , x + x2*20,   y - 10);
+            txLine (x + x2*15, y + 5, x + x2*15, y - 5);
+
+            txSelectFont ("Arial", 25);
+            txDrawText   (x + x2*15 - 7, 710, x + x2*15 + 7, 740, "0");
 
             txSetColor(TX_GREEN, 2);
-            txLine (x1, y11, x + x2*20, y - y12);
+            txLine (x1, yCount_1, x + x2*15, y - yCount_2);
             txSetColor(TX_RED, 2);
-            txLine (x1, y21, x + x2*20, y - y22);
+            txLine (x1, yCountSwap_1, x + x2*15, y - yCountSwap_2);
 
-            x1  = x + x2*20;
-            y11 = y - y12;
+            x1  = x + x2*15;
+            yCount_1 = y - yCount_2;
 
-            x1  = x + x2*20;
-            y21 = y - y22;
-
-            //cout<<y1<<"   "<<y2<<"\n";
-            //увеличение количества считанных чисел
+            x1  = x + x2*15;
+            yCountSwap_1 = y - yCountSwap_2;
 
             }
          }
 
 
     f.close();
-    */
-
-    return 0;
     }
-
-
-
 
 //-----------------------------------------------------------------------------
 void SortFileChange (const char namefile[], int data[], int size, int sortType )
@@ -228,7 +224,7 @@ void Interface ()
 
     txSetColor (RGB (191, 191, 191));
     txSetFillColor (RGB (10, 10, 10));
-    txRectangle (250, 750, 1450, 100);
+    txRectangle (250, 760, 1450, 100);
 
     txSetColor (RGB (10, 10, 10));
     txSelectFont ("Arial Black", 50, 0, FW_BOLD);
@@ -247,7 +243,7 @@ void Interface ()
     txLine (310, 710,  310, 130);
 
     txSelectFont ("Arial", 30);
-    txDrawText   (290, 700, 305, 730, "0");
+    txDrawText   (290, 710, 305, 730, "0");
 
     }
 
