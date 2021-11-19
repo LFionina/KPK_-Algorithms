@@ -14,12 +14,15 @@ void FillRandomArray     (int data[], int size, int range);
 void FillRandomArrayTest (int data[], int size, int range);
 void PrintArray          (int data[], int size, const char title[], int column);
 
-int NumMinArray (int data[], int beginIndex, int endIndex);
+int NumMinArray (int data[], int beginIndex, int endIndex, int* countCompar = NULL);
 int NumMaxArray (int data[], int beginIndex, int endIndex);
 
-void SortSwap   (int data[], int size, int* countSwap, int* count);
-void SortBubble (int data[], int size, int* countSwap, int* count);
-void SortInsert (int data[],int size, int* countSwap, int* count);
+void SortSwap   (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
+void SortBubble (int data[], int size, int* countSwap, int* countCompar);
+void SortInsert (int data[], int size, int* countSwap, int* countCompar);
+void SortShell  (int data[], int size, int* countSwap, int* countCompar);
+
+void Swap (int data[], int size, int num1, int num2, int* countSwap = NULL);
 
 //{-----------------------------------------------------------------------------
 //! Задает массив случайнами числами из диапазона [-a, a].
@@ -121,61 +124,100 @@ int NumMaxArray (int data[], int beginIndex, int endIndex)
 //! @param size     size    - количество элементов в массиве
 //!
 //}-----------------------------------------------------------------------------
-int NumMinArray (int data[], int beginIndex, int endIndex)
+int NumMinArray (int data[], int beginIndex, int endIndex, int* countCompar /*= NULL*/)
     {
+    assert (0 <= beginIndex && beginIndex < endIndex);
+
     int numMin = beginIndex;
-    int minElem = data[numMin];
 
     for (int i = beginIndex; i < endIndex; i++)
         {
-        assert (i >= beginIndex && i < endIndex);
+        assert (beginIndex <= i      && i      < endIndex);
+        assert (beginIndex <= numMin && numMin < endIndex);
 
-        if (data[i] < minElem)
+        if (countCompar) *countCompar += 1;
+
+        if (data[i] < data[numMin])
             {
-            minElem = data[i];
             numMin = i;
             }
         }
+
     return numMin;
     }
 
 //-----------------------------------------------------------------------------
-void SortSwap (int data[], int size, int* countSwap, int* count)
+/*
+                        параметр передан        параметр передан
+                        в форме значения        в форме адреса
+
+параметр нужно
+передать                ничего не нужно            ставим *
+в форме значения           f (param)             f (*param)
+
+параметр нужно
+дальше передать               &                 ничего не нужно
+в форме адреса           f (&param)                  f (param)
+
+ */
+//-----------------------------------------------------------------------------
+void SortSwap (int data[], int size, int* countSwap /*= NULL*/, int* countCompar/* = NULL*/)
     {
-     for (int j = 0; j < size; j++)
+     for (int n = 0; n < size; n++)
         {
-        int numMin = j;
-        int minElem = data[numMin];
+        int numMin = NumMinArray (data, n, size, countCompar);
+        /*
+        int numMin = n;
 
-        for (int i = j; i < size; i++)
+        for (int i = n; i < size; i++)
             {
-            assert (i >= j && i < size);
+            assert (i >= n && i < size);
 
-            if (data[i] < minElem)
+            if (data[i] < data[numMin])
                 {
-                minElem = data[i];
                 numMin = i;
 
-                *count += 1;
+                if (countCompar) *countCompar += 1;
                 }
             else
                 {
-                *count += 1;
+                if (countCompar != NULL) *countCompar += 1;
                 }
             }
-        *countSwap += 1;
-        data[numMin] = data [j];
-        data[j] = minElem;
+            */
+        Swap(data, size, n, numMin, countSwap);
+
+        /*if (countSwap != NULL) *countSwap += 1;
+
+        int temp = data[numMin];
+        data[numMin] = data [n];
+        data[n] = temp;
+        */
         }
     }
 
 
 //-----------------------------------------------------------------------------
-void SortBubble (int data[], int size, int* countSwap, int* count)
+void Swap (int data[], int size, int num1, int num2, int* countSwap /*= NULL*/ )
+    {
+    assert (0 <= num1 && num1 < size);
+    assert (0 <= num2 && num2 < size);
+
+    int temp = data[num1];
+    data[num1] = data [num2];
+    data[num2] = temp;
+
+    if (countSwap != NULL) *countSwap += 1;
+    }
+
+//-----------------------------------------------------------------------------
+void SortBubble (int data[], int size, int* countSwap, int* countCompar)
     {
     for (int i = 0; i < size - 1; i++)
         {
         assert (i >= 0 && i < size - 1);
+
+        int countSwapToday = 0;
 
         for (int j = 0; j < size - i - 1; j++)
             {
@@ -189,24 +231,33 @@ void SortBubble (int data[], int size, int* countSwap, int* count)
                 data[j + 1] = temp;
 
                 *countSwap += 1;
-                *count += 1;
+                *countCompar += 1;
+                countSwapToday += 1;
                 }
             else
                 {
-                *count += 1;
+                *countCompar += 1;
                 }
             }
+
+        if (countSwapToday == 0) break;
         }
     }
 
 
 //-----------------------------------------------------------------------------
-void SortInsert (int data[],int size, int* countSwap, int* count)
+void SortInsert (int data[],int size, int* countSwap, int* countCompar)
     {
 	for (int i = 1; i < size; i++)
         {
+        assert (i >= 1 && i < size);
+
 		for(int j = i; j > 0; j--)
             {
+
+            assert (j     >= 0 && j     <= i);
+            assert (j - 1 >= 0 && j - 1 <= i);
+
             if (data[j-1] > data[j] )
                 {
                 int temp = data[j - 1];
@@ -214,13 +265,50 @@ void SortInsert (int data[],int size, int* countSwap, int* count)
                 data[j] = temp;
 
                 *countSwap += 1;
-                *count += 1;
+                *countCompar += 1;
                 }
             else
                 {
-                *count += 1;
+                *countCompar += 1;
                 }
             }
         }
 
 }
+
+
+//-----------------------------------------------------------------------------
+void SortShell(int data[],int size, int* countSwap, int* countCompar)
+    {
+    int d = size / 2;
+
+    while (d > 0)
+        {
+        for (int i = 0; i < size - d; i++)
+            {
+            int j = i;
+
+            assert (j     >= 0 && j < size - d);
+            assert (j + d >= 0 && j < size - d);
+
+            while (j >= 0)
+                {
+                if (data[j] > data[j + d])
+                    {
+                    int temp = data[j];
+                    data[j] = data[j + d];
+                    data[j + d] = temp;
+
+                    *countSwap += 1;
+                    *countCompar += 1;
+                    }
+                else
+                    {
+                    *countCompar += 1;
+                    }
+                j--;
+                }
+            }
+        d = d / 2;
+        }
+    }
