@@ -10,11 +10,17 @@
 
 void Interface ();
 void Button (int x, int y, const char num[], const char text[], int check, int red, int green, int blue);
-void ButtonToScreen (int x);
+void ButtonToScreen (int x, int num1, int num2, int num3, int num4, int num5);
 
 void SortFileChange  (const char namefile[], int data[], int size, int sortType);
-void SortGraphChange (const char namefile[]);
 
+void AnalysisExchange (int data[], int sizeArray);
+void AnalysisBubble   (int data[], int sizeArray);
+void AnalysisInsert   (int data[], int sizeArray);
+void AnalysisQuick    (int data[], int sizeArray);
+void AnalysisShell    (int data[], int sizeArray);
+
+void PointGraf (int countSwap, int countCompar, int n, COLORREF color);
 
 //-----------------------------------------------------------------------------
 int main ()
@@ -23,168 +29,167 @@ int main ()
 
     Interface();
 
-/*
-    const int k = 100;
-    int data [k] = {};
+    const int sizeArray = 500;
+    int data [sizeArray] = {};
 
-    FillRandomArrayTest (data, k, 50);
+    FillRandomArrayTest (data, sizeArray, 50);
 
-    SortFileChange ("SortArraySDK\\files\\swap.txt", data, k, 1 );
-    SortFileChange ("SortArraySDK\\files\\bubble.txt", data, k, 2 );
-    SortFileChange ("SortArraySDK\\files\\insert.txt", data, k, 3 );
-    SortFileChange ("SortArraySDK\\files\\shell.txt", data, k, 5 );
+    SortFileChange ("SortArraySDK\\files\\swap.txt",   data, sizeArray, 1 );
+    SortFileChange ("SortArraySDK\\files\\bubble.txt", data, sizeArray, 2 );
+    SortFileChange ("SortArraySDK\\files\\insert.txt", data, sizeArray, 3 );
+    SortFileChange ("SortArraySDK\\files\\shell.txt",  data, sizeArray, 5 );
 
     while (!(txGetAsyncKeyState (VK_ESCAPE)))
         {
         if (txGetAsyncKeyState ('1'))
             {
-            txSetColor (RGB (191, 191, 191));
-            txSetFillColor (RGB (191, 191, 191));
-            txRectangle (0, 100, 250, 800);
-            ButtonCheck(20, 103, "1", "Обмен");
-            Button (20, 203, "2", "Пузырек");
-            Button (20, 303, "3", "Вставками");
-            Button (20, 403, "4", "Быстрая");
-            Button (20, 503, "5", "Шелла");
-            Button (20, 688, "0", "Очистить");
-
-            ramka("Cортировка обменом");
-
-            SortGraphChange ("SortArraySDK\\files\\swap.txt");
+            AnalysisExchange (data, sizeArray);
             }
-
         else if (txGetAsyncKeyState ('2'))
             {
-            txSetColor (RGB (191, 191, 191));
-            txSetFillColor (RGB (191, 191, 191));
-            txRectangle (0, 100, 250, 800);
-            Button (20, 103, "1", "Обмен");
-            ButtonCheck (20, 203, "2", "Пузырек");
-            Button (20, 303, "3", "Вставками");
-            Button (20, 403, "4", "Быстрая");
-            Button (20, 503, "5", "Шелла");
-            Button (20, 688, "0", "Очистить");
-
-            ramka("Пузырьковая сортировка");
-
-            SortGraphChange ("SortArraySDK\\files\\bubble.txt");
-
+            AnalysisBubble (data, sizeArray);
             }
         else if (txGetAsyncKeyState ('3'))
             {
-            txSetColor (RGB (191, 191, 191));
-            txSetFillColor (RGB (191, 191, 191));
-            txRectangle (0, 100, 250, 800);
-            Button (20, 103, "1", "Обмен");
-            Button (20, 203, "2", "Пузырек");
-            ButtonCheck (20, 303, "3", "Вставками");
-            Button (20, 403, "4", "Быстрая");
-            Button (20, 503, "5", "Шелла");
-            Button (20, 688, "0", "Очистить");
-
-            ramka("Cортировка вставками");
-
-            SortGraphChange ("SortArraySDK\\files\\insert.txt");
-
+            AnalysisInsert (data, sizeArray);
             }
         else if (txGetAsyncKeyState ('4'))
             {
-            txSetColor (RGB (191, 191, 191));
-            txSetFillColor (RGB (191, 191, 191));
-            txRectangle (0, 100, 250, 800);
-            Button (20, 103, "1", "Обмен");
-            Button (20, 203, "2", "Пузырек");
-            Button (20, 303, "3", "Вставками");
-            ButtonCheck (20, 403, "4", "Быстрая");
-            Button (20, 503, "5", "Шелла");
-            Button (20, 688, "0", "Очистить");
-
-            ramka("/// сортировка");
-
-            FillRandomArrayTest (data, k, 50);
-
+            AnalysisQuick(data, sizeArray);
             }
         else if (txGetAsyncKeyState ('5'))
             {
-            txSetColor (RGB (191, 191, 191));
-            txSetFillColor (RGB (191, 191, 191));
-            txRectangle (0, 100, 250, 800);
-            Button (20, 103, "1", "Обмен");
-            Button (20, 203, "2", "Пузырек");
-            Button (20, 303, "3", "Вставками");
-            Button (20, 403, "4", "Быстрая");
-            ButtonCheck (20, 503, "5", "Шелла");
-            Button (20, 688, "0", "Очистить");
-
-            ramka("Cортировка Шелла");
-
-            SortGraphChange ("SortArraySDK\\files\\shell.txt");
-
+            AnalysisShell(data, sizeArray);
             }
+
         else if (txGetAsyncKeyState ('0'))
             {
             Interface();
             }
 
+
         Sleep (10);
         }
-    */
+
     return 0;
     }
 
+//-----------------------------------------------------------------------------
+void PointGraf (int countSwap, int countCompar, int n, COLORREF color)
+    {
+    txSetColor (TX_WHITE, 2);
+    if (n % 50 == 0 && n <= 1000)
+        {
+        txLine( 60 + 5*n, 730 - 4,  60 + 5*n, 730 + 4);
+        txLine(795 + 5*n, 730 - 4, 795 + 5*n, 730 + 4);
+
+        char str[10] = "";
+        sprintf (str, "%d", n);
+
+        txSelectFont ("Arial", 25);
+        txDrawText   ( 60 + 5*n - 15, 740,  60 + 5*n + 5, 760, str);
+        txDrawText   (795 + 5*n - 15, 740, 795 + 5*n + 5, 760, str);
+        }
+
+    //----- сравнения----------
+    txSetColor (color);
+    txSetFillColor (color);
+   // if (730 - countCompar > 175 /*&& 60 + 5*n < 735*/)
+        txCircle (60 + 5*n, 730 - countCompar/10, 3);
+
+    //----- перестановки----------
+    txSetColor (color);
+    txSetFillColor (color);
+   // if (730 - countSwap   > 175 /* && 795 + 5*n < 1455*/)
+        txCircle (795 + 5*n, 730 - countSwap/10, 3);
+    }
 
 
 //-----------------------------------------------------------------------------
-void SortGraphChange (const char namefile[])
+void AnalysisExchange(int data[], int sizeArray)
     {
-    int x = 300; int y = 700;
+    ButtonToScreen (30, -1, 1, 1, 1, 1);
 
-    int yCount_2 = y;
-    int yCountSwap_2 = y;
-    int x2 = x + 10;
-
-    int yCount_1 = y;
-    int yCountSwap_1 = y;
-    int x1 = x + 10;
-
-    std::fstream f;
-    f.open(namefile);
-
- /*fopen(), fclose(), fprintf(), fscanf(),
-   fgetc(), fputc(), fgets(), fputs()
- */
-
-    if (f)
+    for (int n = 1; n < sizeArray; n++)
         {
-        while (!f.eof())
-            {
-            f >> x2 >> yCount_2 >> yCountSwap_2;
+        int countSwap = 0;
+        int countCompar = 0;
+        FillRandomArrayTest (data, sizeArray, 50);
 
-            txSetColor(TX_WHITE, 2);
-            txLine (x + x2*15, y + 5, x + x2*15, y - 5);
+        SortSwap (data, n, &countSwap, &countCompar);
 
-            char str[10] = "";
-            sprintf (str, "%d", x2);
+        PointGraf (countSwap, countCompar, n, RGB(50, 230, 250));
+        }
+    }
+//-----------------------------------------------------------------------------
+void AnalysisBubble(int data[], int sizeArray)
+    {
+    ButtonToScreen (30, 1, -1, 1, 1, 1);
 
-            txSelectFont ("Arial", 25);
-            txDrawText   (x + x2*15 - 15, 710, x + x2*15 + 15, 740, str);
+    for (int n1 = 1; n1 < sizeArray; n1++)
+        {
+        int countSwap = 0;
+        int countCompar = 0;
+        FillRandomArrayTest (data, n1, 50);
 
-            txSetColor(RGB(146, 208,  80), 3);
-            txLine (x1, yCount_1,     x + x2*15, y - yCount_2/3);
+        SortBubble (data, n1, &countSwap, &countCompar);
 
-            txSetColor(RGB(255, 102, 255), 3);
-            txLine (x1, yCountSwap_1, x + x2*15, y - yCountSwap_2/3);
+        PointGraf (countSwap, countCompar, n1, RGB(130, 180, 100));
+        }
 
-            x1  = x + x2*15;
-            yCount_1 = y - yCount_2/3;
+    printf("hello, i sorted\n");
+    }
+//-----------------------------------------------------------------------------
+void AnalysisInsert(int data[], int sizeArray)
+    {
+    ButtonToScreen (30, 1, 1, -1, 1, 1);
 
-            yCountSwap_1 = y - yCountSwap_2/3;
+    for (int n = 1; n < sizeArray; n++)
+        {
+        int countSwap = 0;
+        int countCompar = 0;
+        FillRandomArrayTest (data, sizeArray, 50);
 
-            }
-         }
+        SortInsert (data, n, &countSwap, &countCompar);
+
+        PointGraf (countSwap, countCompar, n, RGB(250, 100, 50));
+        }
+    }
 
 
-    f.close();
+//-----------------------------------------------------------------------------
+void AnalysisQuick(int data[], int sizeArray)
+    {
+    ButtonToScreen (30, 1, 1, 1, -1, 1);
+
+    for (int n = 1; n < sizeArray; n++)
+        {
+        int countSwap = 10;
+        int countCompar = 10;
+        FillRandomArrayTest (data, sizeArray, 50);
+
+        //SortQuick (data, n, &countSwap, &countCompar);
+
+        PointGraf (countSwap, countCompar, n, RGB(200, 100, 150));
+        }
+    }
+
+
+//-----------------------------------------------------------------------------
+void AnalysisShell(int data[], int sizeArray)
+    {
+    ButtonToScreen (30, 1, 1, 1, 1, -1);
+
+    for (int n = 1; n < sizeArray; n++)
+        {
+        int countSwap = 0;
+        int countCompar = 0;
+        FillRandomArrayTest (data, sizeArray, 50);
+
+        SortShell (data, n, &countSwap, &countCompar);
+
+        PointGraf (countSwap, countCompar, n, RGB(240, 195, 50));
+        }
     }
 
 //-----------------------------------------------------------------------------
@@ -193,15 +198,13 @@ void SortFileChange (const char namefile[], int data[], int size, int sortType )
     std::ofstream f;
     f.open(namefile);
 
-    int n = 5;
+    int n = 1;
 
     for (int i = 0; i < 10; i++)
         {
         int countSwap = 0;
         int countCompar = 0;
         FillRandomArrayTest (data, size, 50);
-
-
         /*
         switch (sortType)
             {
@@ -222,10 +225,9 @@ void SortFileChange (const char namefile[], int data[], int size, int sortType )
         else if (sortType == 3)   SortInsert (data, n, &countSwap, &countCompar);
         else if (sortType == 5)   SortShell  (data, n, &countSwap, &countCompar);
 
-
         f << n << " " << countCompar << " " << countSwap << "\n";
 
-        n += 5;
+        n += 1;
         }
 
     f.close();
@@ -246,7 +248,7 @@ void Interface ()
     txSelectFont ("Arial Black", 50, 0, FW_BOLD);
     txDrawText   (100, 5, 1400, 65, "СОРТИРОВКА МАССИВОВ");
 
-    ButtonToScreen (30, 3);
+    ButtonToScreen (30, 1, 1, 1, 1, 1);
 
     txSetColor(TX_WHITE, 2);
     txLine ( 50, 730,  720, 730);
@@ -266,20 +268,20 @@ void Interface ()
     }
 
 //-----------------------------------------------------------------------------
-void ButtonToScreen (int x, int numButton)
+void ButtonToScreen (int x, int num1, int num2, int num3, int num4, int num5)
     {
-    Button (x,         80, "1", "Обмен",     1,   0, 180, 200);
-    Button (x + 1*230, 80, "2", "Пузырек",   1,  80, 130,  50);
-    Button (x + 2*230, 80, "3", "Вставками", 1, 200,  50,   0);
-    Button (x + 3*230, 80, "4", "Быстрая",   1, 150,  50, 100);
-    Button (x + 4*230, 80, "5", "Шелла",     1, 190, 145,   0);
+    Button (x,         80, "1", "Обмен",     num1,   0, 180, 200);
+    Button (x + 1*230, 80, "2", "Пузырек",   num2,  80, 130,  50);
+    Button (x + 2*230, 80, "3", "Вставками", num3, 200,  50,   0);
+    Button (x + 3*230, 80, "4", "Быстрая",   num4, 150,  50, 100);
+    Button (x + 4*230, 80, "5", "Шелла",     num5, 190, 145,   0);
 
     Button (1260, 80, "0", "Очистить",  1, 161, 161, 161);
     }
 
-//-----------------------------------------------------------------------------
-// check = 1 не нажата,   check = -1 нажата
-//-----------------------------------------------------------------------------
+//{-----------------------------------------------------------------------------
+//! check = 1 не нажата,   check = -1 нажата
+//}-----------------------------------------------------------------------------
 void Button (int x, int y, const char num[], const char text[], int check, int red, int green, int blue)
     {
     txSetColor (RGB (151, 151, 151), 2);
@@ -298,6 +300,10 @@ void Button (int x, int y, const char num[], const char text[], int check, int r
     txSelectFont ("Arial", 30, 0, FW_BOLD);
     txDrawText   (x, y, x + 40, y + 50, num);
     txDrawText   (x + 45, y, x + 200, y + 50, text);
-
     }
 
+
+
+/*fopen(), fclose(), fprintf(), fscanf(),
+   fgetc(), fputc(), fgets(), fputs()
+ */
