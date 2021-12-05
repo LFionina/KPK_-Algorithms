@@ -52,7 +52,6 @@ struct Button
 //{-----------------------------------------------------------------------------
 //!     ôóíêöèè êëàññîâ
 //}-----------------------------------------------------------------------------
-
 void WindowSystemCoordinate::Draw()
     {
     txSetColor (RGB (191, 191, 191));
@@ -96,34 +95,52 @@ void Button::Draw ()
     txDrawText   (x + widthButton/5+5, y, x + widthButton, y + heightButton, text);
     }
 
-
 //=============================================================================
 
 void Interface (double xWindow, double sizeWindowX,
                 double yWindow, double sizeWindowY,
-                double indent,  double widthButton, double heightButton);
+                double indent,
+                double widthButton, double heightButton);
 
 void DrawButtons (double x, double widthButton, double heigthButton, double indent,
                   int num1, int num2, int num3, int num4, int num5);
 
 void SortFileChange  (const char namefile[], int data[], int size, int sortType);
 
-void AnalysisExchange (int data[], int sizeArray, double xWindow,      double widthButton,
-                                                  double heigthButton, double indent);
-void AnalysisBubble   (int data[], int sizeArray, double xWindow,      double widthButton,
-                                                  double heigthButton, double indent);
-void AnalysisInsert   (int data[], int sizeArray, double xWindow,      double widthButton,
-                                                  double heigthButton, double indent);
-void AnalysisQuick    (int data[], int sizeArray, double xWindow,      double widthButton,
-                                                  double heigthButton, double indent);
-void AnalysisShell    (int data[], int sizeArray, double xWindow,      double widthButton,
-                                                  double heigthButton, double indent);
+void AnalysisExchange (int data[], int sizeArray, double xWindow,     double yWindow,
+                                                  double widthButton, double heightButton,
+                                                  double indent,      double scale,
+                                                  double sizeWindowX);
 
-void PointGraf (int countSwap, int countCompar, int n, COLORREF color);
+void AnalysisBubble   (int data[], int sizeArray, double xWindow,     double yWindow,
+                                                  double widthButton, double heightButton,
+                                                  double indent,      double scale,
+                                                  double sizeWindowX);
+
+void AnalysisInsert   (int data[], int sizeArray, double xWindow,     double yWindow,
+                                                  double widthButton, double heightButton,
+                                                  double indent,      double scale,
+                                                  double sizeWindowX);
+
+void AnalysisQuick    (int data[], int sizeArray, double xWindow,     double yWindow,
+                                                  double widthButton, double heightButton,
+                                                  double indent,      double scale,
+                                                  double sizeWindowX);
+
+void AnalysisShell    (int data[], int sizeArray, double xWindow,     double yWindow,
+                                                  double widthButton, double heightButton,
+                                                  double indent,      double scale,
+                                                  double sizeWindowX);
+
+void AbscisMarker (int n, double x0, double y0, double sizeText, double scale);
+void PointGraf (int count, int n, COLORREF color, double x0, double y0, double indent, double scale);
 
 //-----------------------------------------------------------------------------
 int main ()
     {
+    const int sizeArray = 300;
+    int data [sizeArray] = {};
+
     txCreateWindow (1500, 800);
 
     double xWindow = txGetExtentX () * 0.02;
@@ -137,10 +154,9 @@ int main ()
     double widthButton  = (txGetExtentX () - indent*7) / 6 ;
     double heightButton = txGetExtentY () * 0.06 ;
 
-    Interface(xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
+    double scale = sizeWindowX / sizeArray;
 
-    const int sizeArray = 500;
-    int data [sizeArray] = {};
+    Interface(xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
 
     FillRandomArrayTest (data, sizeArray, 50);
 
@@ -151,11 +167,11 @@ int main ()
 
     while (!(txGetAsyncKeyState (VK_ESCAPE)))
         {
-        if      (txGetAsyncKeyState ('1'))  AnalysisExchange (data, sizeArray, xWindow, widthButton, heightButton, indent);
-        else if (txGetAsyncKeyState ('2'))  AnalysisBubble   (data, sizeArray, xWindow, widthButton, heightButton, indent);
-        else if (txGetAsyncKeyState ('3'))  AnalysisInsert   (data, sizeArray, xWindow, widthButton, heightButton, indent);
-        else if (txGetAsyncKeyState ('4'))  AnalysisQuick    (data, sizeArray, xWindow, widthButton, heightButton, indent);
-        else if (txGetAsyncKeyState ('5'))  AnalysisShell    (data, sizeArray, xWindow, widthButton, heightButton, indent);
+        if      (txGetAsyncKeyState ('1'))  AnalysisExchange (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+        else if (txGetAsyncKeyState ('2'))  AnalysisBubble   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+        else if (txGetAsyncKeyState ('3'))  AnalysisInsert   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+        else if (txGetAsyncKeyState ('4'))  AnalysisQuick    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+        else if (txGetAsyncKeyState ('5'))  AnalysisShell    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
         else if (txGetAsyncKeyState ('0'))  Interface (xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
 
         Sleep (10);
@@ -164,40 +180,49 @@ int main ()
     return 0;
     }
 
+
 //-----------------------------------------------------------------------------
-void PointGraf (int countSwap, int countCompar, int n, COLORREF color)
+void AbscisMarker (int n, double x0, double y0, double sizeText, double scale)
     {
     txSetColor (TX_WHITE, 2);
-    if (n % 50 == 0 && n <= 1000)
-        {
-        txLine( 60 + 5*n, 730 - 4,  60 + 5*n, 730 + 4);
-        txLine(795 + 5*n, 730 - 4, 795 + 5*n, 730 + 4);
 
-        char str[10] = "";
-        sprintf (str, "%d", n);
+    txLine(x0 + scale*n, y0 - 4,  x0 + scale*n, y0 + 4);
 
-        txSelectFont ("Arial", 25);
-        txDrawText   ( 60 + 5*n - 15, 740,  60 + 5*n + 5, 760, str);
-        txDrawText   (795 + 5*n - 15, 740, 795 + 5*n + 5, 760, str);
-        }
+    char str[10] = "";
+    sprintf (str, "%d", n);
 
-    //----- ñðàâíåíèÿ----------
-    txSetColor (color);
-    txSetFillColor (color);
-   // if (730 - countCompar > 175 /*&& 60 + 5*n < 735*/)
-        txCircle (60 + 5*n, 730 - countCompar/10, 3);
-
-    //----- ïåðåñòàíîâêè----------
-    txSetColor (color);
-    txSetFillColor (color);
-   // if (730 - countSwap   > 175 /* && 795 + 5*n < 1455*/)
-        txCircle (795 + 5*n, 730 - countSwap/10, 3);
+    txSelectFont ("Arial", sizeText);
+    txDrawText   (x0 + scale*n - 15, y0 + 5,  x0 + scale*n + 15, y0 + sizeText, str);
     }
 
+//-----------------------------------------------------------------------------
+void PointGraf (int count, int n, COLORREF color, double x0, double y0, double indent, double scale)
+    {
+    double sizeWinX    = (txGetExtentX () - txGetExtentX ()*0.06) / 2 - 5;
+    double sizeWinY    = (txGetExtentY() - txGetExtentY()*0.2 - txGetExtentX()*0.02);
+    double borderRight = x0 - indent + sizeWinX;
+
+    txSetColor (TX_WHITE, 2);
+    if (x0 + scale*n <= borderRight)
+        {
+        if (n % 50 == 0)  AbscisMarker (n, x0, y0, indent-8, scale);
+
+        txSetColor (color);
+        txSetFillColor (color);
+
+        if (y0 - count/10 >=  y0 - sizeWinY + indent + 10)
+            {
+            txCircle (x0 + scale*n, y0 - count/10, 3);
+            }
+
+        }
+    }
 
 //-----------------------------------------------------------------------------
-void AnalysisExchange(int data[], int sizeArray, double xWindow,      double widthButton,
-                                                 double heightButton, double indent)
+void AnalysisExchange(int data[], int sizeArray, double xWindow,     double yWindow,
+                                                 double widthButton, double heightButton,
+                                                 double indent,      double scale,
+                                                 double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, -1, 1, 1, 1, 1);
 
@@ -207,33 +232,38 @@ void AnalysisExchange(int data[], int sizeArray, double xWindow,      double wid
         int countCompar = 0;
         FillRandomArrayTest (data, sizeArray, 50);
 
-        SortSwap (data, n, &countSwap, &countCompar);
+        SortExchange (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap, countCompar, n, RGB(50, 230, 250));
+        PointGraf (countSwap,   n, RGB(50, 230, 250), xWindow + indent, yWindow - indent, indent, scale);
+        PointGraf (countCompar, n, RGB(50, 230, 250), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
     }
+
 //-----------------------------------------------------------------------------
-void AnalysisBubble(int data[], int sizeArray, double xWindow,      double widthButton,
-                                               double heightButton, double indent)
+void AnalysisBubble(int data[], int sizeArray, double xWindow,     double yWindow,
+                                               double widthButton, double heightButton,
+                                               double indent,      double scale,
+                                               double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, -1, 1, 1, 1);
 
-    for (int n1 = 1; n1 < sizeArray; n1++)
+    for (int n = 1; n < sizeArray; n++)
         {
         int countSwap = 0;
         int countCompar = 0;
-        FillRandomArrayTest (data, n1, 50);
+        FillRandomArrayTest (data, n, 50);
 
-        SortBubble (data, n1, &countSwap, &countCompar);
+        SortBubble (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap, countCompar, n1, RGB(130, 180, 100));
+        PointGraf (countSwap,   n, RGB(130, 180, 100), xWindow + indent, yWindow - indent, indent, scale);
+        PointGraf (countCompar, n, RGB(130, 180, 100), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
-
-    printf("hello, i sorted\n");
     }
 //-----------------------------------------------------------------------------
-void AnalysisInsert(int data[], int sizeArray, double xWindow,      double widthButton,
-                                               double heightButton, double indent)
+void AnalysisInsert(int data[], int sizeArray, double xWindow,     double yWindow,
+                                               double widthButton, double heightButton,
+                                               double indent,      double scale,
+                                               double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, -1, 1, 1);
 
@@ -245,14 +275,17 @@ void AnalysisInsert(int data[], int sizeArray, double xWindow,      double width
 
         SortInsert (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap, countCompar, n, RGB(250, 100, 50));
+        PointGraf (countSwap,   n, RGB(250, 100, 50), xWindow + indent, yWindow - indent, indent, scale);
+        PointGraf (countCompar, n, RGB(250, 100, 50), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
     }
 
 
 //-----------------------------------------------------------------------------
-void AnalysisQuick(int data[], int sizeArray, double xWindow,      double widthButton,
-                                              double heightButton, double indent)
+void AnalysisQuick(int data[], int sizeArray, double xWindow,     double yWindow,
+                                                 double widthButton, double heightButton,
+                                                 double indent, double scale,
+                                                 double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, 1, -1, 1);
 
@@ -264,14 +297,18 @@ void AnalysisQuick(int data[], int sizeArray, double xWindow,      double widthB
 
         //SortQuick (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap, countCompar, n, RGB(200, 100, 150));
+        //PointGraf (countSwap, countCompar, n, RGB(200, 100, 150));
+        //PointGraf (countSwap,   n, RGB(200, 100, 150), xWindow + indent, yWindow, indent, scale);
+        //PointGraf (countCompar, n, RGB(200, 100, 150), xWindow + sizeWindowX + indent, yWindow, indent, scale);
         }
     }
 
 
 //-----------------------------------------------------------------------------
-void AnalysisShell(int data[], int sizeArray, double xWindow,      double widthButton,
-                                              double heightButton, double indent)
+void AnalysisShell(int data[], int sizeArray, double xWindow,     double yWindow,
+                                                 double widthButton, double heightButton,
+                                                 double indent, double scale,
+                                                 double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, 1, 1, -1);
 
@@ -283,7 +320,8 @@ void AnalysisShell(int data[], int sizeArray, double xWindow,      double widthB
 
         SortShell (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap, countCompar, n, RGB(240, 195, 50));
+        PointGraf (countSwap,   n, RGB(240, 195, 50), xWindow + indent, yWindow - indent, indent, scale);
+        PointGraf (countCompar, n, RGB(240, 195, 50), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
     }
 
@@ -302,10 +340,10 @@ void SortFileChange (const char namefile[], int data[], int size, int sortType )
         FillRandomArrayTest (data, size, 50);
 
 
-        if      (sortType == 1)   SortSwap   (data, n, &countSwap, &countCompar);
-        else if (sortType == 2)   SortBubble (data, n, &countSwap, &countCompar);
-        else if (sortType == 3)   SortInsert (data, n, &countSwap, &countCompar);
-        else if (sortType == 5)   SortShell  (data, n, &countSwap, &countCompar);
+        if      (sortType == 1)   SortExchange (data, n, &countSwap, &countCompar);
+        else if (sortType == 2)   SortBubble   (data, n, &countSwap, &countCompar);
+        else if (sortType == 3)   SortInsert   (data, n, &countSwap, &countCompar);
+        else if (sortType == 5)   SortShell    (data, n, &countSwap, &countCompar);
 
         f << n << " " << countCompar << " " << countSwap << "\n";
 
@@ -351,7 +389,7 @@ void Interface (double xWindow, double sizeWindowX, double yWindow, double sizeW
 
     txSetColor (RGB (10, 10, 10));
     txSelectFont ("Arial Black", indent*1.7, 0, FW_BOLD);
-    txDrawText   (txGetExtentX()/5, 5, txGetExtentX() - txGetExtentX()/5, 5+indent*1.7, "ÑÎÐÒÈÐÎÂÊÀ ÌÀÑÑÈÂÎÂ");
+    txDrawText   (txGetExtentX()/5, 5, txGetExtentX() - txGetExtentX()/5, 5 + indent*1.7, "ÑÎÐÒÈÐÎÂÊÀ ÌÀÑÑÈÂÎÂ");
 
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, 1, 1, 1);
 
@@ -375,7 +413,6 @@ void DrawButtons (double x, double widthButton, double heightButton, double inde
 
     Button btnClear = {x + 5*(widthButton+indent), 80, widthButton, heightButton, "0", "Î÷èñòèòü",  1, 161, 161, 161};
     btnClear.Draw ();
-
     }
 
 
