@@ -17,10 +17,11 @@ void PrintArray          (int data[], int size, const char title[], int column);
 int NumMinArray (int data[], int beginIndex, int endIndex, int* countCompar = NULL);
 int NumMaxArray (int data[], int beginIndex, int endIndex);
 
-void SortSwap   (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
-void SortBubble (int data[], int size, int* countSwap, int* countCompar);
-void SortInsert (int data[], int size, int* countSwap, int* countCompar);
-void SortShell  (int data[], int size, int* countSwap, int* countCompar);
+void SortExchange (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
+void SortBubble   (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
+void SortInsert   (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
+void SortShell    (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
+void SortGnome    (int data[], int size, int* countSwap = NULL, int* countCompar = NULL);
 
 void Swap (int data[], int size, int num1, int num2, int* countSwap = NULL);
 
@@ -161,38 +162,13 @@ int NumMinArray (int data[], int beginIndex, int endIndex, int* countCompar /*= 
 
  */
 //-----------------------------------------------------------------------------
-void SortSwap (int data[], int size, int* countSwap /*= NULL*/, int* countCompar/* = NULL*/)
+void SortExchange (int data[], int size, int* countSwap /*= NULL*/, int* countCompar/* = NULL*/)
     {
      for (int n = 0; n < size; n++)
         {
         int numMin = NumMinArray (data, n, size, countCompar);
-        /*
-        int numMin = n;
 
-        for (int i = n; i < size; i++)
-            {
-            assert (i >= n && i < size);
-
-            if (data[i] < data[numMin])
-                {
-                numMin = i;
-
-                if (countCompar) *countCompar += 1;
-                }
-            else
-                {
-                if (countCompar != NULL) *countCompar += 1;
-                }
-            }
-            */
         Swap(data, size, n, numMin, countSwap);
-
-        /*if (countSwap != NULL) *countSwap += 1;
-
-        int temp = data[numMin];
-        data[numMin] = data [n];
-        data[n] = temp;
-        */
         }
     }
 
@@ -211,7 +187,7 @@ void Swap (int data[], int size, int num1, int num2, int* countSwap /*= NULL*/ )
     }
 
 //-----------------------------------------------------------------------------
-void SortBubble (int data[], int size, int* countSwap, int* countCompar)
+void SortBubble (int data[], int size, int* countSwap/*= NULL*/, int* countCompar/*= NULL*/)
     {
     for (int i = 0; i < size - 1; i++)
         {
@@ -224,19 +200,13 @@ void SortBubble (int data[], int size, int* countSwap, int* countCompar)
             assert (j     >= 0 && j     < size - i - 1);
             assert (j + 1 >= 0 && j + 1 < size - i);
 
+            *countCompar += 1;
+
             if (data[j] > data [j + 1])
                 {
-                int temp = data [j];
-                data[j] = data[j + 1];
-                data[j + 1] = temp;
+                Swap(data, size, j, j+1, countSwap);
 
-                *countSwap += 1;
-                *countCompar += 1;
                 countSwapToday += 1;
-                }
-            else
-                {
-                *countCompar += 1;
                 }
             }
 
@@ -246,39 +216,27 @@ void SortBubble (int data[], int size, int* countSwap, int* countCompar)
 
 
 //-----------------------------------------------------------------------------
-void SortInsert (int data[],int size, int* countSwap, int* countCompar)
+void SortInsert (int data[],int size, int* countSwap/*= NULL*/, int* countCompar/*= NULL*/)
     {
 	for (int i = 1; i < size; i++)
         {
         assert (i >= 1 && i < size);
 
-		for(int j = i; j > 0; j--)
+        for(int j = i; j > 0; j--)
             {
-
             assert (j     >= 0 && j     <= i);
             assert (j - 1 >= 0 && j - 1 <= i);
 
-            if (data[j-1] > data[j] )
-                {
-                int temp = data[j - 1];
-                data[j - 1] = data[j];
-                data[j] = temp;
+            *countCompar += 1;
 
-                *countSwap += 1;
-                *countCompar += 1;
-                }
-            else
-                {
-                *countCompar += 1;
-                }
+            if (data[j-1] > data[j])  Swap(data, size, j, j-1, countSwap);
             }
+
         }
-
-}
-
+    }
 
 //-----------------------------------------------------------------------------
-void SortShell(int data[],int size, int* countSwap, int* countCompar)
+void SortShell(int data[],int size, int* countSwap/*= NULL*/, int* countCompar/*= NULL*/)
     {
     int d = size / 2;
 
@@ -293,22 +251,47 @@ void SortShell(int data[],int size, int* countSwap, int* countCompar)
 
             while (j >= 0)
                 {
-                if (data[j] > data[j + d])
-                    {
-                    int temp = data[j];
-                    data[j] = data[j + d];
-                    data[j + d] = temp;
+                *countCompar += 1;
 
-                    *countSwap += 1;
-                    *countCompar += 1;
-                    }
-                else
-                    {
-                    *countCompar += 1;
-                    }
+                if (data[j] > data[j + d])   Swap (data, size, j, j + d, countSwap);
+
                 j--;
                 }
             }
+
         d = d / 2;
         }
     }
+
+//-----------------------------------------------------------------------------
+void SortGnome(int data[], int size, int* countSwap/*= NULL*/, int* countCompar/*= NULL*/)
+    {
+    int i = 1;
+    int j = 2;
+
+    while (i < size)
+        {
+        assert (0 <= i - 1  && i - 1 < size);
+        assert (0 <= i      && i     < size);
+
+        *countCompar += 1;
+
+        if (data[i - 1] <= data[i])
+            {
+            i = j;
+            j = j + 1;
+            }
+        else
+            {
+            Swap (data, size, i - 1, i, countSwap);
+            i --;
+            if (i == 0)
+                {
+                i = j;
+                j ++;
+                }
+
+            }
+        }
+    }
+

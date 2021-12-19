@@ -122,7 +122,7 @@ void AnalysisInsert   (int data[], int sizeArray, double xWindow,     double yWi
                                                   double indent,      double scale,
                                                   double sizeWindowX);
 
-void AnalysisQuick    (int data[], int sizeArray, double xWindow,     double yWindow,
+void AnalysisGnome    (int data[], int sizeArray, double xWindow,     double yWindow,
                                                   double widthButton, double heightButton,
                                                   double indent,      double scale,
                                                   double sizeWindowX);
@@ -156,6 +156,13 @@ int main ()
 
     double scale = sizeWindowX / sizeArray;
 
+    RECT areaSwap   = { ROUND(xWindow + 0*(widthButton + indent)), 80, ROUND(xWindow + 0*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+    RECT areaBubble = { ROUND(xWindow + 1*(widthButton + indent)), 80, ROUND(xWindow + 1*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+    RECT areaInsert = { ROUND(xWindow + 2*(widthButton + indent)), 80, ROUND(xWindow + 2*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+    RECT areaGnome  = { ROUND(xWindow + 3*(widthButton + indent)), 80, ROUND(xWindow + 3*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+    RECT areaShell  = { ROUND(xWindow + 4*(widthButton + indent)), 80, ROUND(xWindow + 4*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+    RECT areaClear  = { ROUND(xWindow + 5*(widthButton + indent)), 80, ROUND(xWindow + 5*(widthButton + indent) + widthButton), 80 + ROUND(heightButton) };
+
     Interface(xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
 
     FillRandomArrayTest (data, sizeArray, 50);
@@ -167,12 +174,42 @@ int main ()
 
     while (!(txGetAsyncKeyState (VK_ESCAPE)))
         {
-        if      (txGetAsyncKeyState ('1'))  AnalysisExchange (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
-        else if (txGetAsyncKeyState ('2'))  AnalysisBubble   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
-        else if (txGetAsyncKeyState ('3'))  AnalysisInsert   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
-        else if (txGetAsyncKeyState ('4'))  AnalysisQuick    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
-        else if (txGetAsyncKeyState ('5'))  AnalysisShell    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
-        else if (txGetAsyncKeyState ('0'))  Interface (xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
+        if ( areaSwap.left <= txMouseX() && txMouseX() <= areaSwap.right  &&
+             areaSwap.top  <= txMouseY() && txMouseY() <= areaSwap.bottom && txMouseButtons() == 1 )           //(txGetAsyncKeyState ('1'))
+            {
+            AnalysisExchange (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+            }
+
+        else if ( areaBubble.left <= txMouseX() && txMouseX() <= areaBubble.right  &&
+                  areaBubble.top  <= txMouseY() && txMouseY() <= areaBubble.bottom && txMouseButtons() == 1 )  //(txGetAsyncKeyState ('2'))
+            {
+            AnalysisBubble   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+            }
+
+        else if ( areaInsert.left <= txMouseX() && txMouseX() <= areaInsert.right  &&
+                  areaInsert.top  <= txMouseY() && txMouseY() <= areaInsert.bottom && txMouseButtons() == 1 )    //(txGetAsyncKeyState ('3'))
+            {
+            AnalysisInsert   (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+            }
+
+        else if ( areaGnome.left <= txMouseX() && txMouseX() <= areaGnome.right  &&
+                  areaGnome.top  <= txMouseY() && txMouseY() <= areaGnome.bottom && txMouseButtons() == 1 )     //(txGetAsyncKeyState ('4'))
+            {
+            AnalysisGnome    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+            }
+
+        else if ( areaShell.left <= txMouseX() && txMouseX() <= areaShell.right  &&
+                  areaShell.top  <= txMouseY() && txMouseY() <= areaShell.bottom && txMouseButtons() == 1 )     //(txGetAsyncKeyState ('5'))
+            {
+            AnalysisShell    (data, sizeArray, xWindow, yWindow, widthButton, heightButton, indent, scale, sizeWindowX);
+            }
+
+        else if ( areaClear.left <= txMouseX() && txMouseX() <=  areaClear.right &&
+                  areaClear.top  <= txMouseY() && txMouseY() <= areaClear.bottom && txMouseButtons() == 1 )     //(txGetAsyncKeyState ('0'))
+            {
+            Interface (xWindow, sizeWindowX, yWindow, sizeWindowY, indent, widthButton, heightButton);
+            }
+
 
         Sleep (10);
         }
@@ -214,7 +251,6 @@ void PointGraf (int count, int n, COLORREF color, double x0, double y0, double i
             {
             txCircle (x0 + scale*n, y0 - count/10, 3);
             }
-
         }
     }
 
@@ -275,40 +311,40 @@ void AnalysisInsert(int data[], int sizeArray, double xWindow,     double yWindo
 
         SortInsert (data, n, &countSwap, &countCompar);
 
-        PointGraf (countSwap,   n, RGB(250, 100, 50), xWindow + indent, yWindow - indent, indent, scale);
+        PointGraf (countSwap,   n, RGB(250, 100, 50), xWindow + indent,                 yWindow - indent, indent, scale);
         PointGraf (countCompar, n, RGB(250, 100, 50), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
     }
 
 
 //-----------------------------------------------------------------------------
-void AnalysisQuick(int data[], int sizeArray, double xWindow,     double yWindow,
-                                                 double widthButton, double heightButton,
-                                                 double indent, double scale,
-                                                 double sizeWindowX)
+void AnalysisGnome(int data[], int sizeArray, double xWindow,     double yWindow,
+                                              double widthButton, double heightButton,
+                                              double indent,      double scale,
+                                              double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, 1, -1, 1);
 
     for (int n = 1; n < sizeArray; n++)
         {
-        int countSwap = 10;
-        int countCompar = 10;
+        int countSwap = 0;
+        int countCompar = 0;
+
         FillRandomArrayTest (data, sizeArray, 50);
 
-        //SortQuick (data, n, &countSwap, &countCompar);
+        SortGnome    (data, n, &countSwap, &countCompar);
 
-        //PointGraf (countSwap, countCompar, n, RGB(200, 100, 150));
-        //PointGraf (countSwap,   n, RGB(200, 100, 150), xWindow + indent, yWindow, indent, scale);
-        //PointGraf (countCompar, n, RGB(200, 100, 150), xWindow + sizeWindowX + indent, yWindow, indent, scale);
+        PointGraf (countSwap,   n, RGB(200, 100, 150), xWindow + indent,               yWindow - indent, indent, scale);
+        PointGraf (countCompar, n, RGB(200, 100, 150), xWindow + sizeWindowX + 2*indent, yWindow - indent, indent, scale);
         }
     }
 
 
 //-----------------------------------------------------------------------------
 void AnalysisShell(int data[], int sizeArray, double xWindow,     double yWindow,
-                                                 double widthButton, double heightButton,
-                                                 double indent, double scale,
-                                                 double sizeWindowX)
+                                              double widthButton, double heightButton,
+                                              double indent,      double scale,
+                                              double sizeWindowX)
     {
     DrawButtons (xWindow, widthButton, heightButton, indent, 1, 1, 1, 1, -1);
 
@@ -402,7 +438,7 @@ void DrawButtons (double x, double widthButton, double heightButton, double inde
     Button btnSwap   = {x + 0*(widthButton+indent), 80, widthButton, heightButton, "1", "Обмен",     num1,   0, 180, 200};
     Button btnBubble = {x + 1*(widthButton+indent), 80, widthButton, heightButton, "2", "Пузырек",   num2,  80, 130,  50};
     Button btnInsert = {x + 2*(widthButton+indent), 80, widthButton, heightButton, "3", "Вставками", num3, 200,  50,   0};
-    Button btnQuick  = {x + 3*(widthButton+indent), 80, widthButton, heightButton, "4", "Быстрая",   num4, 150,  50, 100};
+    Button btnQuick  = {x + 3*(widthButton+indent), 80, widthButton, heightButton, "4", "Гномья",   num4, 150,  50, 100};
     Button btnShell  = {x + 4*(widthButton+indent), 80, widthButton, heightButton, "5", "Шелла",     num5, 190, 145,   0};
 
     btnSwap.Draw ();
